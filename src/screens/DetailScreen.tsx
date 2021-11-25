@@ -24,7 +24,18 @@ const DetailScreen = ({route}:Props) => {
 const styles = StyleSheet.create({
     imageContainer:{
         width:'100%',
-        height:screenHeight *0.7
+        overflow:'hidden',
+        height:screenHeight *0.7,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.36,
+        shadowRadius: 7,
+        elevation: 11,
+        borderBottomEndRadius:25,
+        borderBottomStartRadius:25
     },
     posterImage:{
         flex:1
