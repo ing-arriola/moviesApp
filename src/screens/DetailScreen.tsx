@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/MainNavigator';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface Props extends StackScreenProps<RootStackParams,'DetailScreen'>{}
 
@@ -12,12 +13,19 @@ const DetailScreen = ({route}:Props) => {
     const uri =`https://image.tmdb.org/t/p/w500${movie.poster_path}`
     console.log(uri)
     return (
-        <View style={styles.imageContainer}>
-            <Image
-                source={{uri}}
-                style={styles.posterImage}
-            />
-        </View>
+        <ScrollView>
+            <View style={styles.imageContainer}>
+                <Image
+                    source={{uri}}
+                    style={styles.posterImage}
+                />
+            </View>
+            <View style={styles.marginContainer} >
+                <Text style={styles.title} >
+                    {movie.title}
+                </Text>
+            </View>
+        </ScrollView>
     )
 }
 
@@ -39,6 +47,14 @@ const styles = StyleSheet.create({
     },
     posterImage:{
         flex:1
+    },
+    marginContainer:{
+        marginHorizontal:20,
+        marginTop:15
+    },
+    title:{
+        fontSize:20,
+        fontWeight:'bold'
     }
 });
 
