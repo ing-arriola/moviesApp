@@ -1,18 +1,32 @@
 import { useState, useEffect } from 'react';
 import movieDB from '../api/moviesApi';
-import { MovieFull } from '../interfaces/movieDb';
+import { CreditsResponse, Cast } from '../interfaces/credits';
+import { MovieFull, Movie, MoviesResponse } from '../interfaces/movieDb';
 interface MovieDetails {
     isLoading:boolean;
-    cast:any[]
+    movieFull?:MovieFull;
+    cast:Cast[]
 }
 
 export const useMovieDetails = (movieId:number) =>{
-    const [state, setstate] = useState <MovieDetails> ()
+    const [state, setstate] = useState <MovieDetails> (
+        {
+            isLoading:true,
+            movieFull:undefined,
+            cast:[]
+        }
+    )
 
     const getMovieDetail =  async () =>{
-        const res = await movieDB.get <MovieFull> (`/${movieId}`)
-        
-        console.log(res.data.overview)
+        const MovieDetailsPromise = movieDB.get <MovieFull> (`/${movieId}`)
+        const castPromise = movieDB.get<CreditsResponse> (`/${movieId}/credits`)
+        const [MovieFullRes,CastRes] =  await Promise.all([MovieDetailsPromise,castPromise])
+
+        setstate({
+            isLoading:false,
+            movieFull:MovieFullRes.data,
+            cast:CastRes.data.cast
+        })
     }
 
     useEffect(() => {
@@ -20,7 +34,7 @@ export const useMovieDetails = (movieId:number) =>{
     }, [])
 
     return {
-        state
+        ...state
     }
 
 }
