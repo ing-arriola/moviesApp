@@ -3,6 +3,7 @@ import { View, ActivityIndicator, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Carousel from 'react-native-snap-carousel';
+import GradientBackground from '../components/GradientBackground';
 import HorizontalCarrousel from '../components/HorizontalCarrousel';
 import { useMovies } from '../hooks/useMovies';
 import MoviePoster from './MoviePoster';
@@ -21,37 +22,38 @@ const HomeScreen = () => {
     }
       
     return (
-        <ScrollView>
-            <View style={{marginTop:top+20,flex:1}} >
-                <View style={{flex:2}} >
-                    <Carousel
-                        data={nowInTheaters}
-                        renderItem={({item}:any)=> <MoviePoster movie={item} />}
-                        sliderWidth={windowWidth}
-                        itemWidth={220}
-                        inactiveSlideOpacity={0.9}
+        <GradientBackground>
+            <ScrollView>
+                <View style={{marginTop:top+20,flex:1}} >
+                    <View style={{flex:2}} >
+                        <Carousel
+                            data={nowInTheaters}
+                            renderItem={({item}:any)=> <MoviePoster movie={item} />}
+                            sliderWidth={windowWidth}
+                            itemWidth={220}
+                            inactiveSlideOpacity={0.9}
+                        />
+                    </View>
+                    <HorizontalCarrousel
+                        ListOfMovies={nowInTheaters}
+                        title='In Theaters'
                     />
+                    <HorizontalCarrousel
+                        ListOfMovies={popularMovies}
+                        title='Popular'
+                    />
+                    <HorizontalCarrousel
+                        ListOfMovies={topRated}
+                        title='Top Rated'
+                    />
+                    <HorizontalCarrousel
+                        ListOfMovies={upcoming}
+                        title='Upcoming'
+                    />
+                    
                 </View>
-                <HorizontalCarrousel
-                    ListOfMovies={nowInTheaters}
-                    title='In Theaters'
-                />
-                <HorizontalCarrousel
-                    ListOfMovies={popularMovies}
-                    title='Popular'
-                />
-                <HorizontalCarrousel
-                    ListOfMovies={topRated}
-                    title='Top Rated'
-                />
-                <HorizontalCarrousel
-                    ListOfMovies={upcoming}
-                    title='Upcoming'
-                />
-                
-            </View>
-
-        </ScrollView>
+            </ScrollView>
+        </GradientBackground>
     )
 }
 
