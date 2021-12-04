@@ -41,6 +41,12 @@ const DetailScreen = ({route}:Props) => {
                 
             </View>
             {isLoading ? (<ActivityIndicator size={30} color='grey' />) : <MovieDetails movieFull={movieFull!} cast={cast} />}
+            <Icon
+                color='white'
+                name='arrow-back-circle-outline'
+                size={45}
+                style={styles.backButton}
+            />
         </ScrollView>
     )
 }
@@ -76,6 +82,14 @@ const styles = StyleSheet.create({
     title:{
         fontSize:20,
         fontWeight:'bold'
+    },
+    backButton:{
+        top:15,
+        left:5,
+        position:'absolute',
+        zIndex:1,
+        elevation:12
+        
     }
 });
 
