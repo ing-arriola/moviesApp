@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Dimensions, ActivityIndicator } from 're
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/MainNavigator';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { useMovieDetails } from '../hooks/useMovieDetails';
 import MovieDetails from '../components/MovieDetails';
 
@@ -11,7 +11,8 @@ interface Props extends StackScreenProps<RootStackParams,'DetailScreen'>{}
 
 const screenHeight= Dimensions.get('screen').height
 
-const DetailScreen = ({route}:Props) => {
+const DetailScreen = ({route,navigation}:Props) => {
+    
     const movie=route.params
     const uri =`https://image.tmdb.org/t/p/w500${movie.poster_path}`
     const {isLoading,movieFull,cast} = useMovieDetails(movie.id)
@@ -41,12 +42,18 @@ const DetailScreen = ({route}:Props) => {
                 
             </View>
             {isLoading ? (<ActivityIndicator size={30} color='grey' />) : <MovieDetails movieFull={movieFull!} cast={cast} />}
-            <Icon
-                color='white'
-                name='arrow-back-circle-outline'
-                size={45}
-                style={styles.backButton}
-            />
+            <View style={styles.backButton} >
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={()=> navigation.pop() }
+                >
+                    <Icon
+                        color='white'
+                        name='arrow-back-circle-outline'
+                        size={45}
+                    />
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     )
 }
