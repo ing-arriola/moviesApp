@@ -3,10 +3,12 @@ import { View, ActivityIndicator, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Carousel from 'react-native-snap-carousel';
+import ImageColors from 'react-native-image-colors'
 import GradientBackground from '../components/GradientBackground';
 import HorizontalCarrousel from '../components/HorizontalCarrousel';
 import { useMovies } from '../hooks/useMovies';
 import MoviePoster from './MoviePoster';
+import {getImageColors} from '../helpers/getColors'
 
 const HomeScreen = () => {
     const { width:windowWidth } = Dimensions.get('window')
@@ -20,6 +22,13 @@ const HomeScreen = () => {
             </View>
         )
     }
+
+    const getPosterColors = async (index:number) => {
+        const movie=nowInTheaters[index]
+        const uri =`https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        const [primary,secondary] = await getImageColors( uri ) 
+        console.log({primary,secondary})   
+    }
       
     return (
         <GradientBackground>
@@ -32,6 +41,7 @@ const HomeScreen = () => {
                             sliderWidth={windowWidth}
                             itemWidth={220}
                             inactiveSlideOpacity={0.9}
+                            onSnapToItem={index => getPosterColors(index)}
                         />
                     </View>
                     <HorizontalCarrousel
